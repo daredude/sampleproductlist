@@ -1,0 +1,71 @@
+body {
+    font-family: verdana, arial, sans-serif;
+}
+
+h1 {
+	background: #333;
+	padding: 0.5em 1em;
+	
+}
+
+img {
+	width: 100px;
+	height: 75px;
+  vertical-align: top;
+}
+
+span {
+  margin: 10px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+ul {
+  list-style-type:none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  border-bottom: solid #333 1px
+}
+
+#container {
+  background: #77c4d3;
+  display: inline-block;
+  color:  #fff;
+  text-transform: uppercase; 
+}
+
+.price {
+  background: #ea2e49;
+  padding: 0 3px;
+}
+
+#overlay {
+   position: fixed;
+   z-index:199;
+   top: 0px;
+   left: 0px;
+   height:100%;
+   width:100%;
+   background-color:#000;
+   -ms-filter: "Alpha(Opacity=75)"; /* IE 8 */
+   filter:alpha(opacity=75); /* IE5-7 */
+   -moz-opacity: 0.75; /* Mozilla */
+   opacity: 0.75;
+}
+
+#lightBox {
+   position:fixed;
+   top:50%;
+   left:50%;
+   margin-left:-100px;
+   margin-top:-100px;
+   z-index:200;
+   width:250px;
+   //height:100px;
+   background-color: rgba(246,247,146,0.9);
+   text-align:center;
+   padding: 30px 0;
+}
