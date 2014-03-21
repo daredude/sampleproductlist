@@ -69,6 +69,7 @@
 	function buildLightBox () {
 		var lightboxElement = document.createElement("div");
 		lightboxElement.setAttribute('id', 'lightBox');
+		hlp.events.bind(lightboxElement, 'click', 'onclick', hideOverlay);
 		return lightboxElement;
 	}
 
