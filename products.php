@@ -4,7 +4,7 @@
 
 	if (!$httpMethod == 'GET') 
 	{
-		http_response_code(405); // method nod allowed
+		header('X-PHP-Response-Code: 405', true, 405); // method nod allowed
 		exit;	
 	}
 	
@@ -23,7 +23,7 @@
 
 	if (!(is_numeric($skip) && is_numeric($take)))
 	{
-		http_response_code(400); // bad request if skip and take are not numbers
+		header('X-PHP-Response-Code: 400', true, 400); // bad request if skip and take are not numbers
 		exit;
 	}
 
@@ -31,7 +31,7 @@
 		... loading product data from repository not implemented ...
 	*/
 
-	$products = [];
+	$products = array();
 	for ($i=$skip; $i < ($skip + $take); $i++) { 
 		$products[] = (object) array('name' => "Product $i", 'price' => "$i.99€");
 

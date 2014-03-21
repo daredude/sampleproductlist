@@ -12,7 +12,7 @@
 
 	if (!(isset($id) && is_numeric($id)))
 	{
-		http_response_code(400); // bad request if no image id is provided
+		header('X-PHP-Response-Code: 400', true, 400); // bad request
 		exit;
 	}
 

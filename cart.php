@@ -4,7 +4,7 @@
 
 	if (!$httpMethod == 'POST') 
 	{
-		http_response_code(405); // method nod allowed
+		header('X-PHP-Response-Code: 405', true, 405); // method nod allowed
 		exit;	
 	}
 
@@ -13,7 +13,7 @@
 
 	if (empty($cartToken) || !isset($productId) || !is_numeric($productId))
 	{
-		http_response_code(400); // bad request
+		header('X-PHP-Response-Code: 400', true, 400); // bad request 
 		exit;
 	}
 
