@@ -30,10 +30,10 @@
 
 	function init (e) {
 
-		unbind(document, 'DOMContentLoaded', 'load', init);
+		hlp.events.unbind(document, 'DOMContentLoaded', 'load', init);
 
-		bind(window, 'scroll', 'onscroll', lazyLoadHandler);
-		bind(window, 'resize', 'onresize', lazyLoadHandler);
+		hlp.events.bind(window, 'scroll', 'onscroll', lazyLoadHandler);
+		hlp.events.bind(window, 'resize', 'onresize', lazyLoadHandler);
 
 		listNode = document.getElementById('productList');
 		dataCount = 0;
@@ -62,7 +62,7 @@
 	function buildOverlay () {
 		var overlayElement = document.createElement("div");
 		overlayElement.setAttribute('id', 'overlay');
-		bind(overlayElement, 'click', 'onclick', hideOverlay);
+		hlp.events.bind(overlayElement, 'click', 'onclick', hideOverlay);
 		return overlayElement;
 	}
 
@@ -100,7 +100,7 @@
 				product = productTemplate.cloneNode(true);
 				product.childNodes[1].appendChild(document.createTextNode(data[i].name)); // display product name
 				product.childNodes[2].appendChild(document.createTextNode(data[i].price)); // display product name
-				bind(product.childNodes[3], 'click', 'onclick', buyHandler) // bind buy button click event
+				hlp.events.bind(product.childNodes[3], 'click', 'onclick', buyHandler) // bind buy button click event
 				product.setAttribute('data-id', dataCount + i);
 				lazies.push(product);
 				chunk.appendChild(product);
@@ -110,8 +110,8 @@
 			listNode.appendChild(chunk);
 			lazyLoadHandler();
 		}else{
-			unbind(window, 'scroll', 'onscroll', lazyLoadHandler);
-			unbind(window, 'resize', 'onresize', lazyLoadHandler);
+			hlp.events.unbind(window, 'scroll', 'onscroll', lazyLoadHandler);
+			hlp.events.unbind(window, 'resize', 'onresize', lazyLoadHandler);
 		}
 	}
 
@@ -183,23 +183,7 @@
 		bodyElement.removeChild(lightBoxElement);
 	}
 
-	bind(document, 'DOMContentLoaded', 'onload', init);
-
-	function bind (src, name, ieName, callback) {
-		if (src.addEventListener) {
-		  src.addEventListener(name, callback, false); 
-		} else if (src.attachEvent)  {
-		  src.attachEvent(ieName, callback);
-		}
-	}
-
-	function unbind (src, name, ieName, callback) {
-		if (src.removeEventListener) {
-		  src.removeEventListener(name, callback); 
-		} else if (src.detachEvent)  {
-		  src.detachEvent(ieName, callback);
-		}
-	}		
+	hlp.events.bind(document, 'DOMContentLoaded', 'onload', init);
 
 })(window);
 

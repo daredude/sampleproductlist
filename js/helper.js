@@ -79,4 +79,28 @@
 			post: post
 		};
 	})();
+
+	hlp.events = (function() {
+
+		function bind (src, name, ieName, callback) {
+			if (src.addEventListener) {
+			  src.addEventListener(name, callback, false); 
+			} else if (src.attachEvent)  {
+			  src.attachEvent(ieName, callback);
+			}
+		}
+
+		function unbind (src, name, ieName, callback) {
+			if (src.removeEventListener) {
+			  src.removeEventListener(name, callback); 
+			} else if (src.detachEvent)  {
+			  src.detachEvent(ieName, callback);
+			}
+		}		
+
+		return {
+			bind: bind,
+			unbind: unbind
+		};
+	})();
 })(window);
