@@ -45,16 +45,18 @@
 		function responseHandler (successHandler, errorHandler) {
 			return function () {
 		    	var data;		
-				if (this.readyState == 4 && this.status == 200) {
-					data = JSON.parse(this.responseText);
-					if (successHandler) {
-						successHandler(data);
-					}					
-				} else if (this.status != 200) {
-					this.onreadystatechange = null;
-					if (errorHandler) {
-						errorHandler(this.status);
-					}
+				if (this.readyState == 4) {
+					if (this.status != 200) {
+						this.onreadystatechange = null;
+						if (errorHandler) {
+							errorHandler(this.status);
+						}
+					} else {
+						data = JSON.parse(this.responseText);
+						if (successHandler) {
+							successHandler(data);
+						}	
+					}										
 				}
 		    };
 		}
@@ -82,19 +84,27 @@
 
 	hlp.events = (function() {
 
-		function bind (src, name, ieName, callback) {
+		function bind (src, name, callback) {
 			if (src.addEventListener) {
 			  src.addEventListener(name, callback, false); 
 			} else if (src.attachEvent)  {
-			  src.attachEvent(ieName, callback);
+			  if (name == 'DOMContentLoaded'){
+			  	window.attachEvent('onload', callback); // IE<9
+			  } else {
+			  	src.attachEvent('on' + name, callback);			  	
+			  }
 			}
 		}
 
-		function unbind (src, name, ieName, callback) {
+		function unbind (src, name, callback) {
 			if (src.removeEventListener) {
 			  src.removeEventListener(name, callback); 
 			} else if (src.detachEvent)  {
-			  src.detachEvent(ieName, callback);
+				if (name == 'DOMContentLoaded'){
+			  	window.detachEvent('onload', callback); // IE<9
+			  } else {
+			  	src.detachEvent('on' + name, callback);
+			  }
 			}
 		}		
 

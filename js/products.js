@@ -21,6 +21,8 @@
 		overlayElement = buildOverlay(),
 		// the lightbox, shown when something was added to the cart
 		lightBoxElement = buildLightBox(),
+		// the html body element
+		bodyElement,
 		// amount of data loaded from service
 		dataCount,		
 		// the images, not loaded yet
@@ -30,11 +32,12 @@
 
 	function init (e) {
 
-		hlp.events.unbind(document, 'DOMContentLoaded', 'load', init);
+		hlp.events.unbind(document, 'DOMContentLoaded', init);
 
-		hlp.events.bind(window, 'scroll', 'onscroll', lazyLoadHandler);
-		hlp.events.bind(window, 'resize', 'onresize', lazyLoadHandler);
+		hlp.events.bind(window, 'scroll', lazyLoadHandler);
+		hlp.events.bind(window, 'resize', lazyLoadHandler);
 
+		bodyElement = document.getElementsByTagName("body")[0];
 		listNode = document.getElementById('productList');
 		dataCount = 0;
 
@@ -62,14 +65,14 @@
 	function buildOverlay () {
 		var overlayElement = document.createElement("div");
 		overlayElement.setAttribute('id', 'overlay');
-		hlp.events.bind(overlayElement, 'click', 'onclick', hideOverlay);
+		hlp.events.bind(overlayElement, 'click', hideOverlay);
 		return overlayElement;
 	}
 
 	function buildLightBox () {
 		var lightboxElement = document.createElement("div");
 		lightboxElement.setAttribute('id', 'lightBox');
-		hlp.events.bind(lightboxElement, 'click', 'onclick', hideOverlay);
+		hlp.events.bind(lightboxElement, 'click', hideOverlay);
 		return lightboxElement;
 	}
 
@@ -101,7 +104,7 @@
 				product = productTemplate.cloneNode(true);
 				product.childNodes[1].appendChild(document.createTextNode(data[i].name)); // display product name
 				product.childNodes[2].appendChild(document.createTextNode(data[i].price)); // display product name
-				hlp.events.bind(product.childNodes[3], 'click', 'onclick', buyHandler) // bind buy button click event
+				hlp.events.bind(product.childNodes[3], 'click', buyHandler) // bind buy button click event
 				product.setAttribute('data-id', dataCount + i);
 				lazies.push(product);
 				chunk.appendChild(product);
@@ -111,8 +114,8 @@
 			listNode.appendChild(chunk);
 			lazyLoadHandler();
 		}else{
-			hlp.events.unbind(window, 'scroll', 'onscroll', lazyLoadHandler);
-			hlp.events.unbind(window, 'resize', 'onresize', lazyLoadHandler);
+			hlp.events.unbind(window, 'scroll', lazyLoadHandler);
+			hlp.events.unbind(window, 'resize', lazyLoadHandler);
 		}
 	}
 
@@ -144,12 +147,13 @@
 		}		
 	}
 
-	function buyHandler () {
-		var url = settings.cartService + hlp.url.buildQuery({
+	function buyHandler (e) {
+		var btnElement = e.srcElement,
+			url = settings.cartService + hlp.url.buildQuery({
 				token: cartToken, 
-				id: this.parentNode.getAttribute('data-id')
+				id: btnElement.parentNode.getAttribute('data-id')
 			}),
-			productName = this.parentNode.childNodes[1].innerText;
+			productName = btnElement.parentNode.childNodes[1].innerText;
 		hlp.json.post({
 			url: url,
 			success: showOverlay(productName),
@@ -159,7 +163,7 @@
 
 	function showOverlay(productName) {
 		return function (data) {
-			var msg, bodyElement;
+			var msg;
 
 			if (data.result) {
 				msg = productName + ' added to cart.';
@@ -171,20 +175,17 @@
 				lightBoxElement.removeChild(lightBoxElement.firstChild);
 			}
 			lightBoxElement.appendChild(document.createTextNode(msg));
-
-			bodyElement = document.getElementsByTagName("body")[0];
 			bodyElement.appendChild(overlayElement);
 			bodyElement.appendChild(lightBoxElement);			
 		};
 	}
 
 	function hideOverlay() {
-		bodyElement = document.getElementsByTagName("body")[0];
 		bodyElement.removeChild(overlayElement);
 		bodyElement.removeChild(lightBoxElement);
 	}
 
-	hlp.events.bind(document, 'DOMContentLoaded', 'onload', init);
+	hlp.events.bind(document, 'DOMContentLoaded', init);
 
 })(window);
 

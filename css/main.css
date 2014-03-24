@@ -64,8 +64,7 @@ li {
    margin-top:-100px;
    z-index:200;
    width:250px;
-   //height:100px;
-   background-color: rgba(246,247,146,0.9);
+   background-color: #ff9;
    text-align:center;
    padding: 30px 0;
 }
