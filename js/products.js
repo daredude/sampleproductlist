@@ -30,10 +30,7 @@
 		// cartToken is hard coded for simplicity. it can be set (i.e.) via cookie or url
 		cartToken = '12345';
 
-	function init (e) {
-
-		hlp.events.unbind(document, 'DOMContentLoaded', init);
-
+	function init () {
 		hlp.events.bind(window, 'scroll', lazyLoadHandler);
 		hlp.events.bind(window, 'resize', lazyLoadHandler);
 
