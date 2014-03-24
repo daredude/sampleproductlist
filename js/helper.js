@@ -1,7 +1,7 @@
-(function(p){
+(function(window){
 
 	var hlp = {};
-	p.hlp = hlp;
+	window.hlp = hlp;
 
 	/*
 		helper functions for using with urls
@@ -32,11 +32,11 @@
 	hlp.json = (function() {
 
 		function requestFactory() {
-			if (p.XMLHttpRequest) {
+			if (window.XMLHttpRequest) {
 	        	return new XMLHttpRequest();
 		    }
 		    // IE
-		    if (p.ActiveXObject) {
+		    if (window.ActiveXObject) {
 		        return new ActiveXObject("Microsoft.XMLHTTP");
 		    }
 		    return null; // we should never get here
